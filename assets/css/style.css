@@ -1,0 +1,266 @@
+/* style.css */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ========================================= */
+/* PRELOAD HACK: Menonaktifkan transisi saat halaman dimuat */
+/* ========================================= */
+html.preload * {
+    transition: none !important;
+}
+
+/* ========================================= */
+/* Wrapper for Sidebar & Content */
+/* ========================================= */
+#wrapper {
+    display: flex;
+    min-height: 100vh;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ========================================= */
+/* Sidebar Styles */
+/* ========================================= */
+#sidebar {
+    width: 250px; /* Lebar default sidebar (expanded) */
+    min-width: 250px; /* Memastikan tidak menyusut lebih kecil dari default */
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out; /* Transisi untuk lebar dan elemen di dalamnya */
+}
+
+/* Ketika sidebar di-hide (collapsed) */
+#sidebar.toggled {
+    width: 80px; /* Lebar sidebar saat diciutkan (hanya ikon) */
+    min-width: 80px; /* Memastikan ikon tidak terpotong */
+    padding: 20px 0;
+    overflow: hidden; /* Sembunyikan teks yang keluar dari lebar */
+}
+
+/* Sembunyikan judul sidebar saat diciutkan */
+#sidebar.toggled .sidebar-heading {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+
+/* Sembunyikan teks menu saat sidebar diciutkan */
+#sidebar.toggled .sidebar-text {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+
+/* Sesuaikan tampilan link saat sidebar diciutkan */
+#sidebar.toggled .nav-link {
+    padding: 10px 0; /* Padding lebih kecil untuk ikon di tengah */
+    justify-content: center; /* Pusatkan ikon secara horizontal */
+    width: 100%; /* Pastikan link mengisi lebar 80px penuh */
+    height: auto; /* Biarkan tinggi menyesuaikan konten */
+    line-height: 1; /* Pastikan tinggi baris normal */
+}
+
+/* Sembunyikan margin kanan ikon agar ikon lebih di tengah saat diciutkan */
+#sidebar.toggled .nav-link i {
+    margin-right: 0 !important; /* Hapus margin kanan ikon */
+    display: block; /* Pastikan ikon mengambil ruang blok untuk centering */
+    text-align: center; /* Pusatkan ikon jika ada spasi tersisa */
+    width: 100%; /* Pastikan ikon mengisi lebar yang tersedia dalam link */
+}
+
+
+#sidebar h4 {
+    text-align: center;
+    padding: 0 15px 20px;
+    border-bottom: 1px solid #495057;
+    margin-bottom: 20px;
+}
+
+#sidebar .nav {
+    padding: 0 15px; /* Padding di sekitar item menu */
+}
+
+#sidebar .nav-item {
+    width: 100%;
+}
+
+#sidebar .nav-link {
+    color: #adb5bd;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease, border-left 0.3s ease;
+    border-left: 3px solid transparent;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    white-space: nowrap; /* Penting: mencegah teks wrap di bawah ikon */
+    text-overflow: ellipsis; /* Tambahkan ellipsis jika teks terlalu panjang dan terpotong */
+}
+
+#sidebar .nav-link:hover {
+    background-color: #495057;
+    color: #ffffff;
+}
+
+/* Penanda Halaman Aktif - Perbaiki prioritas */
+#sidebar .nav-link.active { /* Selektor lebih spesifik */
+    background-color: #0d6efd !important; /* Gunakan !important untuk memastikan penimpaan */
+    color: #ffffff !important;
+    border-left: 3px solid #ffffff !important;
+    font-weight: bold;
+}
+
+#sidebar .nav-link i {
+    margin-right: 10px; /* Spasi antara ikon dan teks */
+    font-size: 1.1rem;
+}
+
+/* ========================================= */
+/* Page Content Wrapper (Konten Utama di Luar Sidebar) */
+/* ========================================= */
+#page-content-wrapper {
+    flex-grow: 1;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ========================================= */
+/* Content Area inside page-content-wrapper */
+/* ========================================= */
+.container-fluid.py-4 {
+    padding: 1.5rem 2rem !important;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+/* ========================================= */
+/* Responsive Adjustments */
+/* ========================================= */
+@media (max-width: 768px) {
+    #wrapper {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        margin-left: -100%; /* Sembunyikan secara default */
+        transition: margin-left 0.3s ease-in-out;
+    }
+
+    #sidebar.toggled {
+        margin-left: 0; /* Tampilkan ketika di-toggle */
+        width: 100%;
+        min-width: 100%;
+    }
+
+    /* Saat di mobile dan sidebar toggled (terbuka), tampilkan kembali teks */
+    #sidebar.toggled .sidebar-text {
+        display: inline;
+        opacity: 1;
+    }
+    #sidebar.toggled .sidebar-heading {
+        display: block;
+        opacity: 1;
+    }
+
+    #sidebar.toggled .nav-link {
+        justify-content: flex-start;
+        padding: 10px 15px;
+    }
+
+    #sidebar.toggled .nav-link i {
+        margin-right: 10px !important;
+    }
+
+    #page-content-wrapper {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* Aturan CSS tambahan untuk kondisi onload */
+html.sidebar-toggled-on-load #wrapper #sidebar {
+    width: 80px;
+    min-width: 80px;
+}
+
+html.sidebar-toggled-on-load #wrapper #sidebar .sidebar-heading,
+html.sidebar-toggled-on-load #wrapper #sidebar .sidebar-text {
+    display: none;
+    opacity: 0;
+}
+
+html.sidebar-toggled-on-load #wrapper #sidebar .nav-link {
+    padding: 10px 0;
+    justify-content: center;
+    width: 100%;
+}
+
+html.sidebar-toggled-on-load #wrapper #sidebar .nav-link i {
+    margin-right: 0 !important;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+/* Tambahan CSS Khusus untuk asset.php */
+
+/* Gaya untuk Card Header Filter yang bisa di-collapse */
+.card-header[data-bs-toggle="collapse"] {
+    cursor: pointer;
+    user-select: none; /* Mencegah teks terpilih saat mengklik cepat */
+}
+
+/* Mengubah ikon chevron pada card-header saat collapse/expand */
+.card-header[data-bs-toggle="collapse"] i {
+    transition: transform 0.3s ease;
+}
+
+.card-header[data-bs-toggle="collapse"][aria-expanded="true"] i {
+    transform: rotate(180deg); /* Putar ikon saat terbuka */
+}
+
+/* Gaya untuk Badge Kondisi di Tabel */
+.badge {
+    padding: 0.5em 0.75em; /* Padding yang sedikit lebih besar */
+    border-radius: 0.25rem; /* Sudut sedikit membulat */
+    font-weight: 600; /* Sedikit lebih tebal */
+}
+
+.badge.bg-warning {
+    color: #212529 !important; /* Pastikan teks gelap untuk badge kuning */
+}
+
+/* Penyesuaian untuk Tombol Aksi di Tabel (opsional) */
+.table td .btn-sm {
+    padding: 0.25rem 0.4rem; /* Sesuaikan padding tombol aksi kecil */
+    font-size: 0.8rem; /* Ukuran font lebih kecil */
+    border-radius: 0.2rem;
+}
+
+/* Penyesuaian untuk dropdown "Tampilkan X entri" */
+.form-select-sm {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+/* Sesuaikan ukuran input search */
+.card-header .input-group .form-control {
+    height: calc(1.5em + 0.75rem + 2px); /* Sesuaikan tinggi dengan button */
+}
